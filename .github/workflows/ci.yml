@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: mediturn_test
+          POSTGRES_USER: mediturn_user
+          POSTGRES_PASSWORD: mediturn_pass
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build and test
+        run: mvn clean verify -q
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/mediturn_test
+          SPRING_DATASOURCE_USERNAME: mediturn_user
+          SPRING_DATASOURCE_PASSWORD: mediturn_pass
+          SPRING_DATA_REDIS_HOST: localhost
+          JWT_SECRET: ci-test-secret-key-only
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: target/surefire-reports/
