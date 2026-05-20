@@ -80,6 +80,7 @@ public class SpecialtyService {
                 .findByIdAndOrganizationId(specialtyId, organizationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Specialty", specialtyId));
 
+        // Soft delete — no borramos de la BD, desactivamos
         specialty.setActive(false);
         specialtyRepository.save(specialty);
     }

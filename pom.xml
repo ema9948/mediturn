@@ -10,6 +10,7 @@
         <version>3.2.5</version>
         <relativePath/>
     </parent>
+
     <groupId>com.mediturn</groupId>
     <artifactId>mediturn</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -20,6 +21,7 @@
         <java.version>21</java.version>
         <jjwt.version>0.12.5</jjwt.version>
     </properties>
+
     <dependencies>
 
         <!-- ── Web ── -->
