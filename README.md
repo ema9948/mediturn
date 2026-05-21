@@ -89,9 +89,9 @@ V3__create_appointments.sql
 
 - [x] Modelo de base de datos
 - [x] Setup del proyecto y Docker
-- [x] Autenticación JWT
-- [x] CRUD de especialidades y médicos
-- [x] Motor de disponibilidad
+- [ ] Autenticación JWT
+- [ ] CRUD de especialidades y médicos
+- [ ] Motor de disponibilidad
 - [ ] Reserva y gestión de turnos
 - [ ] Panel de agenda
 - [ ] Frontend React
